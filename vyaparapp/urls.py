@@ -119,6 +119,7 @@ urlpatterns = [
     path('sale_order', views.sale_order, name='sale_order'),
     path('saleorder_create', views.saleorder_create, name='saleorder_create'),
     path('getparty', views.getparty, name='getparty'),
+    path('getproduct', views.getproduct, name='getproduct'),
 
 
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),

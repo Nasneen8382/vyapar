@@ -1169,9 +1169,10 @@ def sale_order(request):
 def saleorder_create(request):
   cmp = company.objects.get(user=request.user)
   par= party.objects.filter(company=cmp)
+  item = ItemModel.objects.filter(user=request.user)
   
   context={
-    'party':par,
+    'party':par,'item':item
   }
   return render(request, 'saleorder_create.html',context)
 
@@ -1184,3 +1185,54 @@ def getparty(request):
     
     print(data7)
     return JsonResponse(data7)
+
+
+
+def getproduct(request):
+    p_id = request.GET.get('id')
+    print(p_id)
+    item = ItemModel.objects.get(id=p_id)
+    data7 = {'hsn': item.item_hsn,'price':item.item_sale_price,'gst':item.item_gst,'igst':item.item_igst}
+    
+    print(data7)
+    return JsonResponse(data7)
+
+#  if 'staff_id' in request.session:
+#     if request.session.has_key('staff_id'):
+#       staff_id = request.session['staff_id']
+           
+#     else:
+#       return redirect('/')
+#   staff =  staff_details.objects.get(id=staff_id)
+
+@login_required(login_url='login')
+def create_saleorder(request):
+  
+  if request.method == 'POST':
+    prty = request.POST.get('party')
+    p= party.objects.get(party_name=prty)
+    cmp= company.objects.get(user= request.user)
+    payment = request.POST.get('paymethode')
+    
+    
+
+    sale = salesorder(
+      partyid=p,
+      user=request.user,
+      comp=cmp,
+      orederno=request.POST.get('orderno'),
+      orederdate=request.POST.get('orderdate'),
+      duedate=request.POST.get('duedate'),
+      placeofsupply=request.POST.get('stateofsply'),
+      payment_method=payment,
+      subtotal=request.POST.get('subtotal'),
+      taxamount=request.POST.get('taxamount'),
+      adjustment=request.POST.get('adj'),
+      grandtotal=request.POST.get('grandtotal'),
+
+    )
+
+    if payment == 'check':
+      sale.checkno = request.POST.get('checkno')
+    else:
+      sale.UPI = request.POST.get('upiid')

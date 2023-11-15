@@ -139,3 +139,48 @@ class TransactionModel(models.Model):
     trans_created_date = models.DateTimeField(auto_now_add=True,null=True)
 
 # ========================= ASHIKH V U (END)===========================
+
+
+# ========================= nasneen o m ===========================
+
+
+class salesorder(models.Model):
+
+    partyid = models.ForeignKey(party, on_delete=models.CASCADE,null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
+    comp = models.ForeignKey(company, on_delete=models.CASCADE,null=True,blank=True)
+
+    orderno = models.CharField(max_length=100,null=True)
+    orderdate = models.DateField(null=True)
+    duedate = models.DateField(null=True)
+    
+    placeofsupply = models.CharField(max_length=100,null=True)
+    payment_method = models.CharField(max_length=100, default='cash')
+    UPI = models.CharField(max_length=100,null=True)
+    checkno = models.CharField(max_length=100,null=True)
+    subtotal = models.CharField(max_length=100,null=True)
+    IGST = models.CharField(max_length=100,null=True)
+    CGST  =  models.CharField(max_length=100,null=True)
+    SGST =  models.CharField(max_length=100,null=True)
+    taxamount = models.CharField(max_length=100,null=True)
+    adjustment = models.CharField(max_length=100,null=True)
+    grandtotal = models.CharField(max_length=100,null=True)
+
+    note = models.TextField(null=True)
+    
+    paid = models.CharField(max_length=100,null=True)
+    balance = models.CharField(max_length=100,null=True)
+    
+    file = models.FileField(upload_to='sales',null=True)
+
+class sales_item(models.Model):
+    sale_order= models.ForeignKey(salesorder,on_delete=models.CASCADE,null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,default='')
+    product = models.CharField(max_length=100,null=True)
+    hsn = models.CharField(max_length=100,null=True)
+    # description = models.CharField(max_length=100, default='')
+    qty = models.IntegerField(default=0, null=True)
+    price = models.CharField(max_length=100,null=True)
+    total = models.IntegerField(default=0, null=True)
+    discount = models.CharField(max_length=100,null=True)
+    tax = models.CharField(max_length=100,null=True)
