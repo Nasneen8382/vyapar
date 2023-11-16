@@ -78,7 +78,7 @@
 
 
 
-                <form action="{% url 'item_create_new' %}" method="post">
+                <form action="{% url 'create_saleorder' %}" method="post">
                     {% csrf_token %}
                     <div class="position-relative">
                         <div class="position-absolute end-0">
@@ -141,23 +141,10 @@
                             <div>
                                 <p></p>
                                 <hr class="p-0 m-0">
-                                <div style="background-color: rgba(0, 195, 255, 0.205);" class="p-3 pb-0 mb-0">
-                                    <div class="">
-                                        <div class="row pb-0 mb-0">
-                                            <div id="prc_" class="col text-center pb-2"><a class="fw-bolder fs-4"
-                                                    style="color: gray;">PRICING</a></div>
-                                            <div id="stk_" class="col text-center pb-2"><a class="fw-bolder fs-4"
-                                                    style="color: gray;">STOCKS</a></div>
-                                            <!-- <div id="" class="col text-center pb-2"><a class="fw-bolder fs-4"
-                                      style="color: gray;" >FIELD3</a></div>
-                                  <div id="" class="col text-center pb-2"><a class="fw-bolder fs-4"
-                                      style="color: gray;" >FIELD4</a></div> -->
-                                        </div>
-                                    </div>
-                                </div>
+
 
                                 <!-- pricing template start -->
-                                <div id="pricing_template" style="background-color: rgba(144, 211, 117, 0.098);">
+                                <div style="background-color: rgba(144, 211, 117, 0.098);">
                                     <div class="row">
                                         <div class="col-sm-12 col-md-1">
 
@@ -218,65 +205,59 @@
                                                     <label class="tb fw-bold" for="">CHECK NO.</label><br>
                                                     <input style="color: black;background-color: white;" id="checkno"
                                                         class="form-control fw-normal border-secondary  fs-3"
-                                                        type="text" name="checkno" required>
+                                                        type="text" name="checkno">
                                                 </div>
                                                 <div class="w-50 " style="display: none;" id="upi">
                                                     <label class="tb fw-bold" for="">UPI ID</label><br>
                                                     <input style="color: black;background-color: white;" id="upiid"
                                                         class="form-control fw-normal border-secondary  fs-3"
-                                                        type="text" name="upiid" required>
+                                                        type="text" name="upiid">
                                                 </div>
                                             </div>
-                                            <div class="text-start mt-5">
-                                                <button id="next_btn" class="btn btn-primary bg-gradient"
-                                                    type="button">Next</button>
-                                            </div>
+
                                         </div>
                                         <div class="col-sm-12 col-md-1">
 
                                         </div>
                                     </div>
-                                </div>
-                                <!-- pricing template end -->
-                                <script>
-                                    $(document).ready(function () {
-                                        $('#paymethode').change(function () {
-                                            
-                                            $('#upi').hide();
-                                            $('#check').hide(); 
-                                            // Show the selected div based on the selected option
-                                            var selectedOption = $(this).val();
-                                            if (selectedOption=== 'check'){
-                                                $('#check').show();
-                                                $('#upi').hide();
-                                            }
-                                            if (selectedOption=== 'upi') {
-                                                $('#upi').show();
-                                                $('#check').hide();
-                                            }   
-                                                                         
-                                        });
-                                        $('#stateofsply').change(function () {
-                                            
-                                             
-                                            var selectedOption = $(this).val();
-                                            if (selectedOption=== 'other state'){
-                                                $('#igst1').show();
-                                                $('#cgst1').hide();
-                                                $('#sgst1').hide();
-                                            }
-                                            else if (selectedOption=== 'state') {
-                                                $('#igst1').hide();
-                                                $('#cgst1').show();
-                                                $('#sgst1').show();
-                                            }   
-                                                                  
-                                        });
-                                    });
-                                </script>
 
-                                <!-- stock template start -->
-                                <div hidden id="stock_template" style="background-color: rgba(144, 211, 117, 0.098);">
+                                    <script>
+                                        $(document).ready(function () {
+                                            $('#paymethode').change(function () {
+
+                                                $('#upi').hide();
+                                                $('#check').hide();
+                                                // Show the selected div based on the selected option
+                                                var selectedOption = $(this).val();
+                                                if (selectedOption === 'check') {
+                                                    $('#check').show();
+                                                    $('#upi').hide();
+                                                }
+                                                if (selectedOption === 'upi') {
+                                                    $('#upi').show();
+                                                    $('#check').hide();
+                                                }
+
+                                            });
+                                            $('#stateofsply').change(function () {
+
+
+                                                var selectedOption = $(this).val();
+                                                if (selectedOption === 'other state') {
+                                                    $('#igst1').show();
+                                                    $('#cgst1').hide();
+                                                    $('#sgst1').hide();
+                                                }
+                                                else if (selectedOption === 'state') {
+                                                    $('#igst1').hide();
+                                                    $('#cgst1').show();
+                                                    $('#sgst1').show();
+                                                }
+
+                                            });
+                                        });
+                                    </script>
+
                                     <div class="row">
 
                                         <div class="col-sm-12 col-md-12 pb-4">
@@ -308,7 +289,7 @@
                                                                     <div class="d-flex">
                                                                         <select name='product[]' id="product1"
                                                                             style="margin-right: 0.5em;"
-                                                                            class="form-control product border-dark">
+                                                                            class="form-control product border-secondary">
                                                                             <option value=" " selected>Select Product
                                                                             </option>
 
@@ -330,12 +311,12 @@
                                                                 </td>
                                                                 <td><input type="text" name='hsn[]' id="hsn1"
                                                                         placeholder='HSN Code'
-                                                                        class="form-control border-dark" readonly>
+                                                                        class="form-control border-secondary" readonly>
                                                                 </td>
                                                                 <!-- <td><input type="text" name='description[]' id="description" placeholder='Description' class="form-control"  /></td> -->
                                                                 <td><input type="number" name='qty[]'
                                                                         placeholder='Enter Qty' id="qty1"
-                                                                        class="form-control border-dark qty" step=0
+                                                                        class="form-control border-secondary qty" step=0
                                                                         min=0 />
                                                                     <!-- <div style="margin-top: 5Px;" class="d-flex">
                                                                         <span>Available Qty :</span> <span id="qtyspan1"
@@ -343,34 +324,34 @@
                                                                 </td>
                                                                 <td><input type="number" name='price[]' id="unit1"
                                                                         placeholder='Enter Unit Price'
-                                                                        class="form-control price border-dark"
+                                                                        class="form-control price border-secondary"
                                                                         step="0.00" min="0" />
                                                                 </td>
 
 
 
                                                                 <td>
-                                                                    <input hidden value="{{cmp1.state}}" id="cmpstate">
-                                                                    <input type="text" id="select_tax1"
+                                                                    <input hidden id="cmpstate">
+                                                                    <input type="text" id="select_tax1" name="tax1[]"
                                                                         placeholder="Tax Rate"
-                                                                        class="form-control seltax d-flex border-dark"
+                                                                        class="form-control seltax d-flex border-secondary"
                                                                         style="width: 8vw;">
 
 
                                                                 </td>
                                                                 <td><input type="number" name='discount[]'
                                                                         placeholder='Enter Discount' id="disc1" value=0
-                                                                        class="form-control disc border-dark" step=0
+                                                                        class="form-control disc border-secondary" step=0
                                                                         min=0 />
 
                                                                 <td><input type="number" name='total[]' id="total1"
                                                                         placeholder=0
-                                                                        class="form-control total border-dark" value=0
+                                                                        class="form-control total border-secondary" value=0
                                                                         step="any" readonly />
                                                                 </td>
-                                                                <td style="display: block;"><input type="number"
+                                                                <td style="display: none;"><input type="number"
                                                                         step="any" name='taxamount1' id="taxamount1"
-                                                                        class="form-control taxamount border-dark" />
+                                                                        class="form-control taxamount border-secondary" />
                                                                 </td>
                                                                 </td>
                                                                 <td class="d-flex">
@@ -394,7 +375,7 @@
                                                 </div>
                                             </div>
                                             <div class="row clearfix calc" style="margin-top:20px">
-                                                <div class="col-md-6 col-lg-6 col-sm-12 p-3">
+                                                <div class="col-md-6 col-lg-6 col-sm-12 px-5">
 
                                                     <textarea class="form-control border-secondary" id="" name="note"
                                                         placeholder="Note"
@@ -488,35 +469,41 @@
                                                     </div>
                                                     <div class="p-3">
                                                         <div class="row container-fluid p-2 m-0">
-                                                            <div class="col-sm-4 mt-2"><label class="text-left">Piad</label></div>
+                                                            <div class="col-sm-4 mt-2"><label
+                                                                    class="text-left">Piad</label></div>
                                                             <div class="col-sm-1 mt-2">:</div>
                                                             <div class="col-sm-7 mt-2"><input type="number" step="any"
                                                                     name='paid' placeholder=0
-                                                                    class="form-control border-secondary"
-                                                                    id="paid">
+                                                                    class="form-control border-secondary" id="paid">
                                                             </div>
                                                             <div class="col-sm-4 m-0 p-0"></div>
                                                         </div>
                                                         <div class="row container-fluid p-2 m-0">
-                                                            <div class="col-sm-4 mt-2"><label class="text-left">Balance</label></div>
+                                                            <div class="col-sm-4 mt-2"><label
+                                                                    class="text-left">Balance</label></div>
                                                             <div class="col-sm-1 mt-2">:</div>
                                                             <div class="col-sm-7 mt-2"><input type="number" step="any"
                                                                     name='baldue' placeholder=0
-                                                                    class="form-control border-secondary"
-                                                                    id="baldue">
+                                                                    class="form-control border-secondary" id="baldue">
                                                             </div>
                                                             <div class="col-sm-4 m-0 p-0"></div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <hr>
                                             </div>
-                                            <div class="text-start mt-5">
-                                                <button id="prev_btn" class="btn btn-primary bg-gradient  me-3"
-                                                    type="button">PREVIOUS</button>
+                                            <div class="text-start mt-5 px-5">
+
                                                 <button id="" class="btn btn-primary bg-gradient  me-3" type="submit"
                                                     name="save_and_next" value="save_and_next">SAVE AND NEXT</button>
-                                                <button id="" class="btn btn-primary bg-gradient" type="submit"
+                                                <button
+                                                    style="background-color: rgba(38, 76, 146, 0.842);border:rgba(38, 76, 146, 0.842) ;"
+                                                    id="" class="btn btn-primary bg-gradient  me-3" type="submit"
                                                     name="save" value="save">SAVE</button>
+                                                <button
+                                                    style="background-color: rgba(3, 161, 252, 0.7);border:rgba(3, 161, 252, 0.7) ;"
+                                                    id="" class="btn btn-primary bg-gradient" type="reset" name="prev"
+                                                    value="prev">CANCEL</button>
                                             </div>
                                         </div>
                                         <div class="col-sm-12 col-md-1">
@@ -690,6 +677,36 @@
 
             calc();
         });
+        $(document).on('click','.clone_row',function(){
+                var roinc = $("#items-table-body tr").length;
+                var originalRow = $(this).closest('#items-table-body tr'); 
+                var clonedRow = originalRow.clone();
+
+                clonedRow.attr('id', 'addr0' +(roinc+1));
+
+                clonedRow.find('.nnum').text(roinc+1);
+
+                clonedRow.find('[id]').each(function() {
+                    var oldId = $(this).attr('id');
+                    var newId = oldId.replace(/\d+/, roinc+1);
+                    console.log(newId)
+                    $(this).attr('id', newId );
+                });
+
+                clonedRow.find('.product').each(function() {
+                    $(this).val(originalRow.find('.product').val());
+                });
+                clonedRow.find('.intra_tax').each(function() {
+                    $(this).val(originalRow.find('.intra_tax').val());
+                });
+                clonedRow.find('.inter_tax').each(function() {
+                    $(this).val(originalRow.find('.inter_tax').val());
+                });
+                originalRow.after(clonedRow);
+                
+                calc();
+                
+            });
 
         //        
         // }
@@ -728,208 +745,65 @@
         }
         function calc_total() {
 
-             var sos = $('#stateofsply').val();
-             console.log(sos);
-             total = 0;
-             $('.total').each(function () {
-                 total += parseFloat($(this).val());
-             });
-             taxamount = 0;
-             $('.taxamount').each(function () {
-                 taxamount += parseFloat($(this).val());
-             });
-             $('#sub_total').val(total.toFixed(2));
-             $('#tax_amount').val(taxamount.toFixed(2));
-             
-             if (sos=== 'other state'){
+            var sos = $('#stateofsply').val();
+            console.log(sos);
+            total = 0;
+            $('.total').each(function () {
+                total += parseFloat($(this).val());
+            });
+            taxamount = 0;
+            $('.taxamount').each(function () {
+                taxamount += parseFloat($(this).val());
+            });
+            $('#sub_total').val(total.toFixed(2));
+            $('#tax_amount').val(taxamount.toFixed(2));
+
+            if (sos === 'other state') {
                 $('#igst').val(taxamount.toFixed(2));
-             }
-             else if (sos=== 'state'){
-                gst = taxamount/2
-                d=0
+            }
+            else if (sos === 'state') {
+                gst = taxamount / 2
+                d = 0
                 $('#igst').val(d.toFixed(2));
                 $('#cgst').val(gst.toFixed(2));
                 $('#sgst').val(gst.toFixed(2));
-             }
+            }
 
-             gtot = taxamount + total ;
-             $('#grandtotal').val(gtot.toFixed(2));
-             $('#baldue').val(gtot.toFixed(2));
- 
-             
-         }
-         
-         $(document).on("input", "#adj", function(){
+            gtot = taxamount + total;
+            $('#grandtotal').val(gtot.toFixed(2));
+            $('#baldue').val(gtot.toFixed(2));
+
+
+        }
+
+        $(document).on("input", "#adj", function () {
             calc_total();
-            if($(this).val() != ''){
-                
-            var round = parseFloat($("#grandtotal").val()) + parseFloat($("#adj").val()) 
-            $("#grandtotal").val(round.toFixed(2));
-            $('#baldue').val(round.toFixed(2));
+            if ($(this).val() != '') {
+
+                var round = parseFloat($("#grandtotal").val()) + parseFloat($("#adj").val())
+                $("#grandtotal").val(round.toFixed(2));
+                $('#baldue').val(round.toFixed(2));
             }
         });
-        $(document).on("input", "#paid", function(){
-            calc_total();
-            if($(this).val() != ''){
+        $(document).on("input", "#paid", function () {
+
+            if ($(this).val() != '') {
                 var bal = parseFloat($("#grandtotal").val()) - parseFloat($("#paid").val())
                 $('#baldue').val(bal.toFixed(2));
             }
-        });
-    });
-
-</script>
-
-
-
-
-
-<script>
-    $(document).on("submit", "#unit_form", function (e) {
-        e.preventDefault();
-        $.ajax({
-
-            type: 'POST',
-            url: "{% url 'item_unit_create' %}",
-
-            data: {
-                item_unit_name: $("#item_unit_name_id").val(),
-
-                csrfmiddlewaretoken: '{{ csrf_token }}'
-
-            },
-
-            success: function () {
-
-            },
-
-        });
-        $('#modal_cls_btn').click()
-        var a = '' + $('#item_unit_name_id').val()
-        a.toUpperCase()
-        $('#load_new_unit').val(a)
-        $('#load_new_unit').text(a)
-        $('#load_new_unit').prop('selected', true)
-        $('#load_new_unit').attr('hidden', false)
-    });
-    $(document).ready(function () {
-        if ($('#flexSwitchCheckChecked').prop('checked')) {
-            $('#lbl2').css({ 'color': 'blue' })
-        }
-        else {
-            $('#lbl1').css({ 'color': 'blue' })
-        }
-        $('#flexSwitchCheckChecked').on('change load', function () {
-            if ($('#flexSwitchCheckChecked').prop('checked')) {
-                $('#lbl2').css({ 'color': 'blue' })
-                $('#lbl1').css({ 'color': 'inherit' })
-            }
             else {
-                $('#lbl1').css({ 'color': 'blue' })
-                $('#lbl2').css({ 'color': 'inherit' })
+                var bal = parseFloat($("#grandtotal").val()) - 0
+                $('#baldue').val(bal.toFixed(2));
             }
-        })
-    })
-    $(document).ready(function () {
-        $('#item_tax_1').on('click', function () {
-            if ($(this).prop('checked')) {
-                $('#taxable_hide').attr('hidden', false)
-            }
-        })
-    })
-    // page loading start
-    $(document).ready(function () {
-        $('#item_tax_2').on('click', function () {
-            if ($(this).prop('checked')) {
-                $('#taxable_hide').attr('hidden', true)
-            }
-        })
-    })
-    $(document).ready(function () {
-        $('#prc_').css({ 'border-bottom': '3px solid rgba(0, 0, 0, 0.548)' })
-        $('#stk_ a').removeClass('text-dark')
-        $('#prc_ a').addClass('text-dark')
-        $('#stk_').css({ 'border-bottom': 'none' })
-        $('#pricing_template').attr('hidden', false)
 
-
-        $('#prc_').on('click', function () {
-            $(this).css({ 'border-bottom': '3px solid rgba(0, 0, 0, 0.548)' })
-            $('#stk_ a').removeClass('text-dark')
-            $('#prc_ a').addClass('text-dark')
-            $('#stk_').css({ 'border-bottom': 'none' })
-            $('#pricing_template').attr('hidden', false)
-            $('#stock_template').attr('hidden', true)
-        })
-    })
-    $(document).ready(function () {
-        $('#stk_').on('click', function () {
-            $('#stk_').css({ 'border-bottom': '3px solid rgba(0, 0, 0, 0.548)' })
-            $('#prc_ a').removeClass('text-dark')
-            $('#stk_ a').addClass('text-dark')
-            $('#prc_').css({ 'border-bottom': 'none' })
-            $('#pricing_template').attr('hidden', true)
-            $('#stock_template').attr('hidden', false)
-        })
-    })
-    $(document).ready(function () {
-        $('#next_btn').on('click', function () {
-            $('#stk_').click()
-        })
-    })
-    $(document).ready(function () {
-        $('#prev_btn').on('click', function () {
-            $('#prc_').click()
-        })
-    })
-    // $(document).ready(function(){
-    //   $('#prc_').on('click',function(){
-    //     alert('asdsad')
-    //   })
-    // })
-    // $(document).ready(function(){
-    //   $('#prc_').on('click',function(){
-    //     alert('asdsad')
-    //   })
-    // })
-    // page loading end
-    $('#opn_stock_').on('keyup click', function () {
-        if ($(this).val() > '0') {
-            $('#at_price_div').css({
-                'visibility': 'visible',
-                'transition': 'all 0.2s linear'
-            })
-        }
-        else {
-            $('#at_price_div').css({
-                'visibility': 'hidden',
-                'transition': 'all 0.2s linear'
-            })
-            $('#at_price').val('')
-        }
-    })
-    $(document).ready(function () {
-        $('#item_tax_1').on('click', function () {
-            $('#taxable_result').val('Taxable')
-        })
-    })
-    $(document).ready(function () {
-        $('#item_tax_2').on('click', function () {
-            $('#taxable_result').val('Non Taxable')
-        })
-    })
-    function submit_unit_creation_fn() {
-        $('#submit_unit_creation').click()
-    }
-    // set today start
-    $(document).ready(function () {
-        var currentDate = new Date();
-        var year = currentDate.getFullYear();
-        var month = String(currentDate.getMonth() + 1).padStart(2, "0");
-        var day = String(currentDate.getDate()).padStart(2, "0");
-        var formattedDate = year + "-" + month + "-" + day;
-        $("#date_").val(formattedDate);
-    })
-    // set today end
+        });
+    });
 
 </script>
+
+
+
+
+
+
 {% endblock %}

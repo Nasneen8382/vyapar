@@ -1213,22 +1213,28 @@ def create_saleorder(request):
     p= party.objects.get(party_name=prty)
     cmp= company.objects.get(user= request.user)
     payment = request.POST.get('paymethode')
+    pos=request.POST.get('stateofsply')
     
-    
+    print(request.POST.getlist("product[]"))
+    print(request.POST.get('orderdate'))
 
     sale = salesorder(
       partyid=p,
       user=request.user,
       comp=cmp,
-      orederno=request.POST.get('orderno'),
-      orederdate=request.POST.get('orderdate'),
+      orderno=request.POST.get('orderno'),
+      orderdate=request.POST.get('orderdate'),
       duedate=request.POST.get('duedate'),
-      placeofsupply=request.POST.get('stateofsply'),
+      placeofsupply=pos,
       payment_method=payment,
       subtotal=request.POST.get('subtotal'),
       taxamount=request.POST.get('taxamount'),
       adjustment=request.POST.get('adj'),
       grandtotal=request.POST.get('grandtotal'),
+      note=request.POST.get('note'),
+      paid=request.POST.get('paid'),
+      balance=request.POST.get('baldue'),
+      
 
     )
 
@@ -1236,3 +1242,45 @@ def create_saleorder(request):
       sale.checkno = request.POST.get('checkno')
     else:
       sale.UPI = request.POST.get('upiid')
+    if request.FILES.get('file') != '':
+      sale.file =request.FILES.get('file')
+    if pos == 'state':
+      sale.CGST=request.POST.get('cgst')
+      sale.SGST=request.POST.get('sgst')
+    elif pos == 'other state':
+      sale.IGST=request.POST.get('igst')
+
+    sale.save()
+    print("saved===================================")
+    
+    product = request.POST.getlist("product[]")
+    hsn  = request.POST.getlist("hsn[]")
+    qty = request.POST.getlist("qty[]")
+    price = request.POST.getlist("price[]")
+    tax = request.POST.getlist("tax1[]")
+    discount = request.POST.getlist("discount[]")
+    total = request.POST.getlist("total[]")
+    salesorderid=salesorder.objects.get(id =sale.id)
+    print(len(product))
+    print(len(hsn))
+    print(len(qty))
+    print(len(price))
+   
+    if all(product) and all(hsn) and all(qty) and all(price) and all(tax) and all(discount) and all(total):
+      mapped = zip(product, hsn, qty, price, tax, discount, total)
+      for ele in mapped:
+        salesorderAdd = sales_item.objects.create(
+          product=ele[0],
+          hsn=ele[1],
+          qty=ele[2],
+          price=ele[3],
+          tax=ele[4],
+          discount=ele[5],
+          total=ele[6],
+          sale_order=salesorderid,
+          cmp=cmp
+          )
+    return redirect('sale_order')
+  return redirect('sale_order')
+      
+# =================

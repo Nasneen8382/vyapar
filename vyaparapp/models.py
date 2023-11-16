@@ -149,7 +149,6 @@ class salesorder(models.Model):
     partyid = models.ForeignKey(party, on_delete=models.CASCADE,null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
     comp = models.ForeignKey(company, on_delete=models.CASCADE,null=True,blank=True)
-
     orderno = models.CharField(max_length=100,null=True)
     orderdate = models.DateField(null=True)
     duedate = models.DateField(null=True)
@@ -175,7 +174,7 @@ class salesorder(models.Model):
 
 class sales_item(models.Model):
     sale_order= models.ForeignKey(salesorder,on_delete=models.CASCADE,null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE,default='')
+    cmp = models.ForeignKey(company, on_delete=models.CASCADE,default='')
     product = models.CharField(max_length=100,null=True)
     hsn = models.CharField(max_length=100,null=True)
     # description = models.CharField(max_length=100, default='')
