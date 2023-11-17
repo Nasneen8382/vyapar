@@ -1164,7 +1164,11 @@ def deleteparty(request,id):
 
 
 def sale_order(request):
-  return render(request, 'sale_order.html')
+  sale = salesorder.objects.all()
+  context={
+    'sale':sale
+  }
+  return render(request, 'sale_order.html',context)
 
 def saleorder_create(request):
   cmp = company.objects.get(user=request.user)
@@ -1208,10 +1212,12 @@ def getproduct(request):
 @login_required(login_url='login')
 def create_saleorder(request):
   
+  staff_id = request.session['staff_id']
   if request.method == 'POST':
     prty = request.POST.get('party')
     p= party.objects.get(party_name=prty)
-    cmp= company.objects.get(user= request.user)
+    staff =  staff_details.objects.get(id=staff_id)
+    cmp= staff.company
     payment = request.POST.get('paymethode')
     pos=request.POST.get('stateofsply')
     
@@ -1220,7 +1226,7 @@ def create_saleorder(request):
 
     sale = salesorder(
       partyid=p,
-      user=request.user,
+      staff=staff,
       comp=cmp,
       orderno=request.POST.get('orderno'),
       orderdate=request.POST.get('orderdate'),
@@ -1266,10 +1272,12 @@ def create_saleorder(request):
     print(len(qty))
     print(len(price))
    
-    if all(product) and all(hsn) and all(qty) and all(price) and all(tax) and all(discount) and all(total):
+    if len(product)==len(hsn)==len(qty) ==len(price)==len(tax)==len(discount)==len(total):
       mapped = zip(product, hsn, qty, price, tax, discount, total)
+      mapped = list(mapped)
       for ele in mapped:
-        salesorderAdd = sales_item.objects.create(
+        print(ele[0])
+        salesorderAdd = sales_item(
           product=ele[0],
           hsn=ele[1],
           qty=ele[2],
@@ -1279,7 +1287,9 @@ def create_saleorder(request):
           total=ele[6],
           sale_order=salesorderid,
           cmp=cmp
-          )
+            )
+        salesorderAdd.save()
+        print("item saved===================================")
     return redirect('sale_order')
   return redirect('sale_order')
       

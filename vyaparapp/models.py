@@ -147,8 +147,8 @@ class TransactionModel(models.Model):
 class salesorder(models.Model):
 
     partyid = models.ForeignKey(party, on_delete=models.CASCADE,null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
-    comp = models.ForeignKey(company, on_delete=models.CASCADE,null=True,blank=True)
+    staff = models.ForeignKey(staff_details, on_delete=models.CASCADE,null=True,blank=True)
+    # comp = models.ForeignKey(company, on_delete=models.CASCADE,null=True,blank=True)
     orderno = models.CharField(max_length=100,null=True)
     orderdate = models.DateField(null=True)
     duedate = models.DateField(null=True)

@@ -584,7 +584,7 @@
               <td class = 'nnum'>${roinc}</td>
                         <td style="width: 20%;">
                           <div class="d-flex">
-                          <select name='product[]' id="product${roinc}" class="form-control product border-dark" style="margin-right: 0.5em;">
+                          <select name='product[]' id="product${roinc}" class="form-control product border-secondary" style="margin-right: 0.5em;">
                                 <option value=" " selected>Select Product</option>
                             
                                         {% for i in item %}
@@ -598,23 +598,23 @@
                                 </a>
                             </div>
                         </td>
-                        <td><input type="text" name='hsn[]' id="hsn${roinc}" placeholder='HSN Code' class="form-control border-dark" readonly /></td>
+                        <td><input type="text" name='hsn[]' id="hsn${roinc}" placeholder='HSN Code' class="form-control border-secondary" readonly /></td>
                         <td><input type="number" name='qty[]' onchange="qtychange1(this)" placeholder='Enter Qty' id="qty${roinc}" class="form-control border-dark qty" step=0 min=0 >
                           
                         </td>
-                        <td><input type="number" name='price[]' id="unit${roinc}" placeholder='Price' class="form-control border-dark price" step="0.00" min="0"  /></td>
+                        <td><input type="number" name='price[]' id="unit${roinc}" placeholder='Price' class="form-control border-secondary price" step="0.00" min="0"  /></td>
                         
                         <td>
-                          <input type="text"  id="select_tax${roinc}" placeholder="Tax Rate" class="form-control border-dark seltax d-flex"  style="width: 8vw;">
+                          <input type="text"name='tax1[]'   id="select_tax${roinc}" placeholder="Tax Rate" class="form-control border-secondary seltax d-flex"  style="width: 8vw;">
     
                           
                           
                         </td>  
                         <td>
-                            <input type="number" name='discount[]' placeholder='Enter Discount' value=0 id="disc${roinc}" class="form-control border-dark disc" step=0 min=0>
+                            <input type="number" name='discount[]' placeholder='Enter Discount' value=0 id="disc${roinc}" class="form-control border-secondary disc" step=0 min=0>
                         </td>
-                        <td><input type="number" name='total[]' id="total${roinc}" placeholder=0 class="form-control border-dark total" value=0 step="any" readonly /></td>
-                        <td style="display: block;"><input type="number" step="any" name='taxamount1' id="taxamount${roinc}" class="form-control border-dark taxamount" />
+                        <td><input type="number" name='total[]' id="total${roinc}" placeholder=0 class="form-control border-secondary total" value=0 step="any" readonly /></td>
+                        <td style="display: none;"><input type="number" step="any" name='taxamount1' id="taxamount${roinc}" class="form-control border-secondary taxamount" />
                         </td>
                         <td class="d-flex">
                             <button type="button" id="${roinc}" class="btn btn-primary font-weight-bold clone_row px-2 my-1 py-1"

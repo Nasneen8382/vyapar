@@ -5,6 +5,9 @@
 {% load static %}
 
 <style>
+    .table,.form-control,label,.btn{
+        font-size: 0.8em;
+    }
     table tr td:hover {
         cursor: pointer;
     }
@@ -141,7 +144,22 @@
                                     </th>
                                     <th class="text-center p-0 m-0"></th>
                                 </thead>
-                                <tbody></tbody>
+                                <tbody>
+                                    {% for i in sale %}
+                                    <tr>
+                                        <td>{{forloop.counter }}</td>
+                                    <td>{{i.partyid.party_name}}</td>
+                                    <td>{{i.orderno}}</td>
+                                    <td>{{i.orderdate}}</td>
+                                    <td>{{i.duedate}}</td>
+                                    <td>{{i.grandtotal}}</td>
+                                    <td>{{i.balance}}</td>
+                                    <td>type</td>
+                                    <td>created</td>
+                                    <td>a</td>
+                                </tr>
+                                    {% endfor %}
+                                </tbody>
                             </table>
                         </div>
                     </div>
