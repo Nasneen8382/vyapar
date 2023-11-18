@@ -1212,22 +1212,22 @@ def getproduct(request):
 @login_required(login_url='login')
 def create_saleorder(request):
   
-  staff_id = request.session['staff_id']
+  # staff_id = request.session['staff_id']
   if request.method == 'POST':
     prty = request.POST.get('party')
     p= party.objects.get(party_name=prty)
-    staff =  staff_details.objects.get(id=staff_id)
-    cmp= staff.company
+    # staff =  staff_details.objects.get(id=staff_id)
+    cmp= company.objects.get(user=request.user)
     payment = request.POST.get('paymethode')
     pos=request.POST.get('stateofsply')
-    
+    attach=request.FILES.get('attach')       
+  
     print(request.POST.getlist("product[]"))
     print(request.POST.get('orderdate'))
 
     sale = salesorder(
       partyid=p,
-      staff=staff,
-      comp=cmp,
+      
       orderno=request.POST.get('orderno'),
       orderdate=request.POST.get('orderdate'),
       duedate=request.POST.get('duedate'),
@@ -1240,6 +1240,7 @@ def create_saleorder(request):
       note=request.POST.get('note'),
       paid=request.POST.get('paid'),
       balance=request.POST.get('baldue'),
+      file=attach
       
 
     )
@@ -1248,8 +1249,7 @@ def create_saleorder(request):
       sale.checkno = request.POST.get('checkno')
     else:
       sale.UPI = request.POST.get('upiid')
-    if request.FILES.get('file') != '':
-      sale.file =request.FILES.get('file')
+    
     if pos == 'state':
       sale.CGST=request.POST.get('cgst')
       sale.SGST=request.POST.get('sgst')
@@ -1293,4 +1293,17 @@ def create_saleorder(request):
     return redirect('sale_order')
   return redirect('sale_order')
       
+      
+      
+def saleorder_view(request,id):
+  sale = salesorder.objects.get(id=id)
+  item = sales_item.objects.filter(sale_order=sale)
+  s = salesorder.objects.all()
+  
+  context={
+    'sale':sale,'item':item,'s':s,
+  }
+  return render(request, 'saleorder_view.html',context)
+
+
 # =================

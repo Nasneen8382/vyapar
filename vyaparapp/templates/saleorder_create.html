@@ -56,6 +56,13 @@
         color: black;
         font-weight: 600;
     }
+   
+    label,.table .form-control,.form-control{
+        font-size: 0.7rem;
+    }
+    .table th{
+        font-size: 0.82em;
+    }
 </style>
 
 <div class="body-wrapper">
@@ -78,7 +85,7 @@
 
 
 
-                <form action="{% url 'create_saleorder' %}" method="post">
+                <form action="{% url 'create_saleorder' %}" method="post" enctype="multipart/form-data" id="myForm">
                     {% csrf_token %}
                     <div class="position-relative">
                         <div class="position-absolute end-0">
@@ -156,7 +163,7 @@
                                             <div class="d-flex pt-5">
                                                 <div class="w-50 me-3">
                                                     <label class="tb fw-bold" for="pur_price">ORDER NO.</label><br>
-                                                    <input style="color: black;background-color: white;" id="orderno"
+                                                    <input style="color: black;background-color: white; " id="orderno"
                                                         class="form-control fw-normal border-secondary  fs-3"
                                                         type="number" placeholder="Order Number" name="orderno"
                                                         required>
@@ -381,7 +388,7 @@
                                                         placeholder="Note"
                                                         style="height: 150px;color: black;"></textarea>
 
-                                                    <input type="file" name="file"
+                                                    <input type="file" name="attach"
                                                         style="margin-top: 10px; width: 70%;">
                                                 </div>
 
