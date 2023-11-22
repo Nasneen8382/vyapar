@@ -122,6 +122,8 @@ urlpatterns = [
     path('getproduct', views.getproduct, name='getproduct'),
     path('create_saleorder', views.create_saleorder, name='create_saleorder'),
     path('saleorder_view/<int:id>', views.saleorder_view, name='saleorder_view'),
+    path('delete_saleorder/<int:id>', views.delete_saleorder, name='delete_saleorder'),
+    path('import_excel', views.import_excel, name='import_excel'),
 
 
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),

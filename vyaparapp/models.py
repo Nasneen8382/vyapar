@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import Max
 
 # Create by athul.
 
@@ -146,10 +147,10 @@ class TransactionModel(models.Model):
 
 class salesorder(models.Model):
 
-    partyid = models.ForeignKey(party, on_delete=models.CASCADE,null=True)
+    partyname = models.CharField(max_length=100,null=True)
     staff = models.ForeignKey(staff_details, on_delete=models.CASCADE,null=True,blank=True)
     # comp = models.ForeignKey(company, on_delete=models.CASCADE,null=True,blank=True)
-    orderno = models.CharField(max_length=100,null=True)
+    orderno = models.IntegerField(null=True)
     orderdate = models.DateField(null=True)
     duedate = models.DateField(null=True)
     
@@ -171,7 +172,16 @@ class salesorder(models.Model):
     balance = models.CharField(max_length=100,null=True)
     
     file = models.FileField(upload_to='sales',null=True)
+    status = models.CharField(max_length=100,default='open')
+    action = models.CharField(max_length=100,default='convert to invoice')
 
+    @classmethod
+    def next_orderno(cls):
+        last_orderno = cls.objects.aggregate(Max('orderno'))['orderno__max']
+        return 1 if last_orderno is None else last_orderno + 1
+    
+    
+    
 class sales_item(models.Model):
     sale_order= models.ForeignKey(salesorder,on_delete=models.CASCADE,null=True)
     cmp = models.ForeignKey(company, on_delete=models.CASCADE,default='')

@@ -12,7 +12,7 @@ from datetime import timedelta
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.template.response import TemplateResponse
-
+import pandas as pd
 
 # Create your views here.
 def home(request):
@@ -1174,6 +1174,7 @@ def saleorder_create(request):
   cmp = company.objects.get(user=request.user)
   par= party.objects.filter(company=cmp)
   item = ItemModel.objects.filter(user=request.user)
+  # order_no = salesorder.next_orderno()
   
   context={
     'party':par,'item':item
@@ -1215,7 +1216,6 @@ def create_saleorder(request):
   # staff_id = request.session['staff_id']
   if request.method == 'POST':
     prty = request.POST.get('party')
-    p= party.objects.get(party_name=prty)
     # staff =  staff_details.objects.get(id=staff_id)
     cmp= company.objects.get(user=request.user)
     payment = request.POST.get('paymethode')
@@ -1226,8 +1226,7 @@ def create_saleorder(request):
     print(request.POST.get('orderdate'))
 
     sale = salesorder(
-      partyid=p,
-      
+      partyname=prty,
       orderno=request.POST.get('orderno'),
       orderdate=request.POST.get('orderdate'),
       duedate=request.POST.get('duedate'),
@@ -1299,11 +1298,46 @@ def saleorder_view(request,id):
   sale = salesorder.objects.get(id=id)
   item = sales_item.objects.filter(sale_order=sale)
   s = salesorder.objects.all()
+  prty = party.objects.get(party_name=sale.partyname)
   
   context={
-    'sale':sale,'item':item,'s':s,
+    'sale':sale,'item':item,'s':s,'prty':prty
   }
   return render(request, 'saleorder_view.html',context)
 
-
+def delete_saleorder(request,id):
+  sale = salesorder.objects.get(id=id)
+  item = sales_item.objects.filter(sale_order=sale)
+  for i in item:
+    i.delete()
+  sale.delete()
+  return redirect('sale_order')
+  
+  
+  
+def import_excel(request):
+    if request.method == "POST" and request.FILES.get("file"):
+      print("open============================================")
+      excel_file = request.FILES['file']
+      if excel_file.name.endswith('.xlsx'):
+        df = pd.read_excel(excel_file, engine='openpyxl')
+        for index, row in df.iterrows():
+          salesorder.objects.create(
+                    partyname=row['PARTY NAME'],
+                    orderno=row['NUMBER'],
+                    orderdate=row['DATE'],
+                    duedate=row['DUE DATE'],
+                    grandtotal=row['TOTAL'],
+                    balance=row['BALANCE'],
+                    status=row['STATUS'],
+                    action=row['ACTION'],
+                    # Add other fields accordingly
+                )
+        print("success============================================")
+        return redirect('sale_order')  # Redirect to a success page
+      print("end===========================")
+    return redirect('sale_order')
+  
+  
+  
 # =================
